@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Building, Mail, Phone, Globe, MapPin, Calendar, Users, Award, FileText, ChevronLeft, Icon, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer';
-import Navbar from '../components/navbar';
+import Navbar from '../components/Navbar';
 
 export default function InstitutionRegistration() {
   const navigate = useNavigate();
