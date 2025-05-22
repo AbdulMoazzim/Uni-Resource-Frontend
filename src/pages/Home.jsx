@@ -8,7 +8,7 @@ import icon2 from '../assets/resource.png';
 import icon3 from '../assets/notification.svg';
 import {Users, Clock, CheckCircle, Settings } from 'lucide-react';
 import Footer from '../components/Footer';
-import Navbar from '../components/navbar';
+import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 
 export default function EducationalSchedulingLanding() {
