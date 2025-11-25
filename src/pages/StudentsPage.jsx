@@ -35,10 +35,10 @@ export default function StudentsPage() {
     const fetchScheduleData = async () => {
       setLoading(true);
       try {
-           fetchAPI(`https://uni-resource.onrender.com/api/student/user/${decoded[1].id}`, "GET")
+           fetchAPI(`http://127.0.0.1:5000/api/student/user/${decoded[1].id}`, "GET")
               .then((val) => {
                 setStudentInfo(val.student)
-                fetchAPI(`https://uni-resource.onrender.com/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}/${val.student.year}/Section ${val.student.section}`, "GET")
+                fetchAPI(`http://127.0.0.1:5000/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}/${val.student.year}/Section ${val.student.section}`, "GET")
                   .then((val) => {
                     console.log(val);
                     setScheduleData(val);
@@ -46,12 +46,12 @@ export default function StudentsPage() {
                   .catch(error => console.error("Error fetching schedule:", error));
               })
               .catch(error => console.error("Error fetching schedule:", error));
-           fetchAPI(`https://uni-resource.onrender.com/api/department/${decoded[1].department_id}`, "GET")
+           fetchAPI(`http://127.0.0.1:5000/api/department/${decoded[1].department_id}`, "GET")
               .then((val) => {
                 setdepartmentInfo(val.department)
               })
               .catch(error => console.error("Error fetching schedule:", error));
-            fetchAPI(`https://uni-resource.onrender.com/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
+            fetchAPI(`http://127.0.0.1:5000/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
               .then((val) => {
                 let list = [];
                 val.times.forEach(element => {

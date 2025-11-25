@@ -17,14 +17,14 @@ export default function AdminDashboard() {
   const [teachers, setTeachers] = useState([]);
   
   useEffect(()=>{
-    fetchAPI(`https://uni-resource.onrender.com/api/departments/${decoded[1].institution_id}`, "GET").then((val)=> {
+    fetchAPI(`http://127.0.0.1:5000/api/departments/${decoded[1].institution_id}`, "GET").then((val)=> {
       setDepartments(val.departments)
       setLoading(false)
     })
-    fetchAPI(`https://uni-resource.onrender.com/api/department_heads/${decoded[1].institution_id}`, "GET").then((val)=> {
+    fetchAPI(`http://127.0.0.1:5000/api/department_heads/${decoded[1].institution_id}`, "GET").then((val)=> {
       setDeptHeads(val.department_heads)
     })
-    fetchAPI(`https://uni-resource.onrender.com/api/teacher/${decoded[1].institution_id}`, "GET").then((val)=> {
+    fetchAPI(`http://127.0.0.1:5000/api/teacher/${decoded[1].institution_id}`, "GET").then((val)=> {
       setTeachers(val.teachers)
     })
 
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
   };
 
   const handleDeleteRequest = (id) => {
-    fetchAPI(`https://uni-resource.onrender.com/api/departments/${id}`, "DELETE").then(()=> {
+    fetchAPI(`http://127.0.0.1:5000/api/departments/${id}`, "DELETE").then(()=> {
       const depts = departments.filter((dept)=> dept.id !== id);
       setDepartments(depts)
     })
@@ -73,15 +73,15 @@ export default function AdminDashboard() {
   }
   
   const deleteAllUsers = (id) => {
-      fetchAPI(`https://uni-resource.onrender.com/api/user/dept/${id}`, 'DELETE').then(()=>{
-        fetchAPI(`https://uni-resource.onrender.com/api/departments/${decoded[1].institution_id}`, "GET").then((val)=> {
+      fetchAPI(`http://127.0.0.1:5000/api/user/dept/${id}`, 'DELETE').then(()=>{
+        fetchAPI(`http://127.0.0.1:5000/api/departments/${decoded[1].institution_id}`, "GET").then((val)=> {
       setDepartments(val.departments)
       setLoading(false)
     })
-    fetchAPI(`https://uni-resource.onrender.com/api/department_heads/${decoded[1].institution_id}`, "GET").then((val)=> {
+    fetchAPI(`http://127.0.0.1:5000/api/department_heads/${decoded[1].institution_id}`, "GET").then((val)=> {
       setDeptHeads(val.department_heads)
     })
-    fetchAPI(`https://uni-resource.onrender.com/api/teacher/${decoded[1].institution_id}`, "GET").then((val)=> {
+    fetchAPI(`http://127.0.0.1:5000/api/teacher/${decoded[1].institution_id}`, "GET").then((val)=> {
       setTeachers(val.teachers)
     })
       }).catch(error => {
@@ -89,14 +89,14 @@ export default function AdminDashboard() {
       });
     };
   const deleteUser = (id, condition) => {
-    fetchAPI(`https://uni-resource.onrender.com/api/user/${id}`, 'DELETE').catch(error => {
+    fetchAPI(`http://127.0.0.1:5000/api/user/${id}`, 'DELETE').catch(error => {
       console.error('Error fetching:', error);
     });
     if (condition === "teacher") setTeachers(teachers.filter((teacher)=> teacher.id !== id))
     else setDeptHeads(deptHeads.filter((d)=> d.id !== id))
     };
   const handleDeleteRequestForDeptHead = (id) => {
-      fetchAPI(`https://uni-resource.onrender.com/api/department_heads/${id}`, 'DELETE').then(() => {
+      fetchAPI(`http://127.0.0.1:5000/api/department_heads/${id}`, 'DELETE').then(() => {
   
         setDeptHeads((deptHeads) => deptHeads.filter((head) => head.id !== id));
       }).catch(error => {
@@ -104,7 +104,7 @@ export default function AdminDashboard() {
       });
     };
   const handleDeleteRequestForTeacherHead = (id) => {
-      fetchAPI(`https://uni-resource.onrender.com/api/teacher/${id}`, 'DELETE').then(() => {
+      fetchAPI(`http://127.0.0.1:5000/api/teacher/${id}`, 'DELETE').then(() => {
   
         setTeachers((teachers) => teachers.filter((teacher) => teacher.id !== id));
       }).catch(error => {
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
         code: formData.code,
         institution_id: decoded[1].institution_id
       };
-      fetchAPI("https://uni-resource.onrender.com/api/departments/register", "POST", newDepartment).then((data)=>{
+      fetchAPI("http://127.0.0.1:5000/api/departments/register", "POST", newDepartment).then((data)=>{
         setDepartments((prevState)=> ([...prevState, data.dept]))
       }).catch((err)=> alert(err));
     } 
@@ -132,8 +132,8 @@ export default function AdminDashboard() {
         institution_id: decoded[1].institution_id,
         department_id: deptID,
       };
-      fetchAPI("https://uni-resource.onrender.com/api/user/register", "POST", {...newTeacher, password: formData.password, role: "Teacher"}).then((val)=>{
-        fetchAPI("https://uni-resource.onrender.com/api/teacher/register", "POST", {...newTeacher, user_id: val.user.id}).then((data)=>{
+      fetchAPI("http://127.0.0.1:5000/api/user/register", "POST", {...newTeacher, password: formData.password, role: "Teacher"}).then((val)=>{
+        fetchAPI("http://127.0.0.1:5000/api/teacher/register", "POST", {...newTeacher, user_id: val.user.id}).then((data)=>{
           setTeachers((prevState)=> ([...prevState, data.teacher]))
         }).catch((e)=>{
           alert(e)
@@ -149,8 +149,8 @@ export default function AdminDashboard() {
         institution_id: decoded[1].institution_id
       };
 
-      fetchAPI("https://uni-resource.onrender.com/api/user/register", "POST", {...newDeptHead, password: formData.password, role: "DeptHead"}).then((val)=>{
-        fetchAPI("https://uni-resource.onrender.com/api/department_heads/register", "POST", {...newDeptHead, user_id: val.user.id}).then((data)=>{
+      fetchAPI("http://127.0.0.1:5000/api/user/register", "POST", {...newDeptHead, password: formData.password, role: "DeptHead"}).then((val)=>{
+        fetchAPI("http://127.0.0.1:5000/api/department_heads/register", "POST", {...newDeptHead, user_id: val.user.id}).then((data)=>{
           setDeptHeads((prevState)=> ([...prevState, data.new_department_head]))
         }).catch((e)=>{
           alert(e)

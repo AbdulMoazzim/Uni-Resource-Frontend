@@ -128,7 +128,7 @@ function DashboardContent() {
 
   useEffect(() => {
     fetchAPI(
-      `https://uni-resource.onrender.com/api/notification/pending/${decoded[1].institution_id}/${decoded[1].department_id}`,
+      `http://127.0.0.1:5000/api/notification/pending/${decoded[1].institution_id}/${decoded[1].department_id}`,
       "GET"
     ).then((data) => {
       setChangeRequests(data.pending_schedules);
@@ -148,7 +148,7 @@ console.log(changeRequests)
     console.log(status)
     console.log(res)
     fetchAPI(
-      `https://uni-resource.onrender.com/api/notification/update/deptHead/${id}`,
+      `http://127.0.0.1:5000/api/notification/update/deptHead/${id}`,
       "PUT", {
         response: res,
         status
@@ -314,7 +314,7 @@ function StudentsContent() {
 
   useEffect(() => {
     fetchAPI(
-      `https://uni-resource.onrender.com/api/student/${decoded[1].institution_id}`,
+      `http://127.0.0.1:5000/api/student/${decoded[1].institution_id}`,
       "GET"
     ).then((data) => {
       console.log(data)
@@ -331,14 +331,14 @@ function StudentsContent() {
   };
 
   const deleteUser = (id) => {
-    fetchAPI(`https://uni-resource.onrender.com/api/user/${id}`, 'DELETE').catch(error => {
+    fetchAPI(`http://127.0.0.1:5000/api/user/${id}`, 'DELETE').catch(error => {
       console.error('Error fetching:', error);
     });
     setStudents(students.filter((student)=> student.id !== id))
     };
 
   const handleDeleteRequest = (id) => {
-    fetchAPI(`https://uni-resource.onrender.com/api/student/${id}`, "DELETE")
+    fetchAPI(`http://127.0.0.1:5000/api/student/${id}`, "DELETE")
       .then(() => {
         setStudents((students) =>
           students.filter((student) => student.id !== id)
@@ -350,13 +350,13 @@ function StudentsContent() {
   };
 
   const handleSubmit = async () => {
-  fetchAPI("https://uni-resource.onrender.com/api/user/register", "POST", {
+  fetchAPI("http://127.0.0.1:5000/api/user/register", "POST", {
     ...formData,
     department_id: decoded[1].department_id,
     institution_id: decoded[1].institution_id,
     role: "Student",
   }).then((data) => {
-    fetchAPI("https://uni-resource.onrender.com/api/student", "POST", {
+    fetchAPI("http://127.0.0.1:5000/api/student", "POST", {
       ...formData,
       department_id: decoded[1].department_id,
       institution_id: decoded[1].institution_id,
@@ -657,7 +657,7 @@ function ScheduleContent() {
   // Fetch teachers and schedule data
   useEffect(() => {
     // Fetch teachers
-    fetchAPI(`https://uni-resource.onrender.com/api/teacher/${decoded[1].institution_id}`, "GET")
+    fetchAPI(`http://127.0.0.1:5000/api/teacher/${decoded[1].institution_id}`, "GET")
       .then((val) => {
         setTeachersInfo(val.teachers)
         setNames(val.teachers.map((teacher) => teacher.name));
@@ -665,12 +665,12 @@ function ScheduleContent() {
       .catch(error => console.error("Error fetching teachers:", error));
     
     // Fetch schedule data
-    fetchAPI(`https://uni-resource.onrender.com/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
+    fetchAPI(`http://127.0.0.1:5000/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
       .then((val) => {
         setScheduleData(val);
       })
       .catch(error => console.error("Error fetching schedule:", error));
-    fetchAPI(`https://uni-resource.onrender.com/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
+    fetchAPI(`http://127.0.0.1:5000/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
       .then((val) => {
         let list1 = [];
         let list2 = [];
@@ -720,7 +720,7 @@ function ScheduleContent() {
       return;
     }
 
-    fetchAPI(`https://uni-resource.onrender.com/api/schedule/${year}/${section}`, "POST", daySchedule)
+    fetchAPI(`http://127.0.0.1:5000/api/schedule/${year}/${section}`, "POST", daySchedule)
       .then((data) => {
         alert("Schedule successfully posted!");
       })
@@ -807,7 +807,7 @@ function ScheduleContent() {
     resetFormFields();
   };
   const publishTimeSlot = () => {
-    fetchAPI(`https://uni-resource.onrender.com/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "POST", timeSlotsWithoutID)
+    fetchAPI(`http://127.0.0.1:5000/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "POST", timeSlotsWithoutID)
       .then((data) => {
         const filterData = data.time.filter((d)=> {return [d.id, d.time]})
         setTimeSlots( [...timeSlots, [filterData[0].id, filterData[0].time]].sort((a, b) => {
@@ -819,7 +819,7 @@ function ScheduleContent() {
       });
   }
   const DeleteTimeSlot = (id,name) => {
-  fetchAPI(`https://uni-resource.onrender.com/api/time/${id}`, "DELETE")
+  fetchAPI(`http://127.0.0.1:5000/api/time/${id}`, "DELETE")
     .then(() => {
       setTimeSlots((prevState) => prevState.filter((p) => p[0] !== id));
       setTimeSlotsWithoutID((prevState) => prevState.filter((p) => p !== name));
@@ -829,7 +829,7 @@ function ScheduleContent() {
       alert("Failed to delete time. Please try again.");
     });
 
-  fetchAPI(`https://uni-resource.onrender.com/api/timeSlot/${id}`, "DELETE")
+  fetchAPI(`http://127.0.0.1:5000/api/timeSlot/${id}`, "DELETE")
     .then(() => {
       const time = timeSlots.find((t) => t[0] === id); // Use `find` instead of `filter`
       if (!time) return;

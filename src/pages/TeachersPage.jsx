@@ -58,16 +58,16 @@ function TeachersPage() {
     // Replace with your actual API call
     const fetchScheduleData = async () => {
       
-        fetchAPI(`https://uni-resource.onrender.com/api/teacher/user/${decoded[1].id}`, "GET")
+        fetchAPI(`http://127.0.0.1:5000/api/teacher/user/${decoded[1].id}`, "GET")
           .then((val) => {
             setTeacherData(val.teacher)
-            fetchAPI(`https://uni-resource.onrender.com/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}/${val.teacher.name}`, "GET")
+            fetchAPI(`http://127.0.0.1:5000/api/schedule/${decoded[1].institution_id}/${decoded[1].department_id}/${val.teacher.name}`, "GET")
               .then((val) => {
                 setScheduleData(val);
               })
               .catch(error => console.error("Error fetching schedule:", error));
 
-            fetchAPI(`https://uni-resource.onrender.com/api/notification/${decoded[1].institution_id}/${decoded[1].department_id}/${val.teacher.id}`, "GET")
+            fetchAPI(`http://127.0.0.1:5000/api/notification/${decoded[1].institution_id}/${decoded[1].department_id}/${val.teacher.id}`, "GET")
           .then((val) => {
             console.log(val)
             setNotification(val.notifications);
@@ -79,12 +79,12 @@ function TeachersPage() {
 
           })
           .catch(error => console.error("Error fetching teacher:", error));
-        fetchAPI(`https://uni-resource.onrender.com/api/department/${decoded[1].department_id}`, "GET")
+        fetchAPI(`http://127.0.0.1:5000/api/department/${decoded[1].department_id}`, "GET")
           .then((val) => {
             setdepartmentInfo(val.department)
           })
           .catch(error => console.error("Error fetching department:", error));
-        fetchAPI(`https://uni-resource.onrender.com/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
+        fetchAPI(`http://127.0.0.1:5000/api/time/${decoded[1].institution_id}/${decoded[1].department_id}`, "GET")
           .then((val) => {
             let list = [];
             val.times.forEach(element => {
@@ -103,7 +103,7 @@ function TeachersPage() {
   
   // Function to handle acknowledging a notification
   const acknowledgeNotification = (notificationId) => {
-    fetchAPI(`https://uni-resource.onrender.com/api/notification/update/${notificationId}`, "PUT", {})
+    fetchAPI(`http://127.0.0.1:5000/api/notification/update/${notificationId}`, "PUT", {})
       .then(() => {
         // Update the notification list with the acknowledged status
         const updatedNotifications = notification.map(notif => 
@@ -138,7 +138,7 @@ function TeachersPage() {
       response: ""
     };
     
-    fetchAPI(`https://uni-resource.onrender.com/api/notification/register/${decoded[1].institution_id}/${decoded[1].department_id}`, "POST", request)
+    fetchAPI(`http://127.0.0.1:5000/api/notification/register/${decoded[1].institution_id}/${decoded[1].department_id}`, "POST", request)
               .then((val) => {
                 console.log(val)
                 alert("Successful")

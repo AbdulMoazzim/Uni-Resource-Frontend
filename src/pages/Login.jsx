@@ -25,7 +25,7 @@ export default function Login() {
             return;
         }
         try {
-          let response = await fetchAPI("https://uni-resource.onrender.com/api/login","POST", {
+          let response = await fetchAPI("http://127.0.0.1:5000/api/login","POST", {
             email, password
           })
           localStorage.setItem("access_token", response.access_token)
